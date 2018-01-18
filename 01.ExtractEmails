@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace _01.extractEmails
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            var text = Console.ReadLine();
+            var pattern = @"([\w.-]+\@[a-zA-Z-]+)(\.[a-zA-Z-]+)+";
+
+            Regex regex = new Regex(pattern);
+            MatchCollection matches = regex.Matches(text);
+
+            foreach (Match emailMatch in matches)
+            {
+                string mail = emailMatch.ToString();
+                if (!(mail.StartsWith(".") || mail.StartsWith("-") || mail.StartsWith("_") || mail.EndsWith(".") || mail.EndsWith("-") || mail.EndsWith("_")))
+                {
+                    Console.WriteLine("Valid mail: ");
+                    Console.WriteLine(emailMatch);
+                }
+            }
+
+        }
+    }
+}
