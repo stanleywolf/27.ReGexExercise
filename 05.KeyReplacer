@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace _05.keyReplacer
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string keyString = Console.ReadLine();
+            string text = Console.ReadLine();
+
+            var pattern = @"^(?<startKey>[a-zA-Z]*)(?:\<|\||\\)(?:.+)(?:\<|\||\\)(?<endKey>[a-zA-Z]*)$";
+
+            var result=new StringBuilder();
+
+            Match match = Regex.Match(keyString, pattern);
+            var firstWord = match.Groups[1].Value;
+            var seconrWord = match.Groups[2].Value;
+
+            if (match.Success)
+            { 
+            var patternText = $"{firstWord}(.*?){seconrWord}";
+            var textMatch = Regex.Matches(text, patternText);
+
+                foreach (Match mach in textMatch)
+                {
+                    result.Append(mach.Groups[1].Value);
+                }
+            }
+            if (result.Length == 0)
+            {
+                Console.WriteLine("Empty result");
+            }
+            else
+            {
+                Console.WriteLine(string.Join("", result));
+            }
+            
+            
+            
+        }
+    }
+}
