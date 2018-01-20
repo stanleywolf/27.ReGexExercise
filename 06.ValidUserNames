@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace _06.validUsernames
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //string splitter=@"[\s,!?]+";
+            var pattern = "\\W+";
+            var input = Console.ReadLine();
+            string[] newInput = Regex.Replace(input,pattern," ").Split(new char[]{' '},StringSplitOptions.RemoveEmptyEntries);
+
+            string validPattern = "^[a-zA-Z][a-zA-Z0-9_]{2,24}$";
+
+            Regex regex=new Regex(validPattern);
+            List<string>valid=new List<string>();
+
+            foreach (var user in newInput)
+            {
+                if (regex.IsMatch(user))
+                {
+                    valid.Add(user);
+                }
+            }
+            int sumMax = 0;
+            string first=String.Empty;
+            string second=String.Empty;
+
+            for (int i = 1; i < valid.Count; i++)
+            {
+                int currentSum = valid[i - 1].Length + valid[i].Length;
+                if (currentSum > sumMax)
+                {
+                    sumMax = currentSum;
+                    first = valid[i - 1];
+                    second = valid[i];
+                }               
+            }
+            Console.WriteLine(first);
+            Console.WriteLine(second);
+        }
+    }
+}
